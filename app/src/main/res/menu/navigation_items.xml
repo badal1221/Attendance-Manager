@@ -17,7 +17,7 @@
         android:icon="@drawable/ic_baseline_reorder"/>
     <item android:id="@+id/Editcrit"
         android:title="Edit Attandance Criteria"
-        android:icon="@drawable/ic_baseline_peditcrit"/>
+        android:icon="@drawable/baseline_reorder"/>
     <item android:id="@+id/Backup"
         android:title="Backup and Restore"
         android:icon="@drawable/ic_baseline_backup"/>
