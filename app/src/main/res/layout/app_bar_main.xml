@@ -20,7 +20,8 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/date"
                     android:textSize="20dp"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold"
+                    android:text="24-02-2023"/>
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:layout_width="30dp"
                     android:layout_height="30dp"

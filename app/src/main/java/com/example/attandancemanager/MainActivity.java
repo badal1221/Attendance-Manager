@@ -12,8 +12,14 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Dialog;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,20 +35,25 @@ public class MainActivity extends AppCompatActivity {
     DrawerLayout drawerlayout;
     NavigationView navigationview;
     Toolbar toolbar;
-    TextView date;
+    TextView date,addsubj;
     RecyclerView recview;
+    private Mydbhandler db;
     ArrayList<Model> arr=new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Dialog dialog = new Dialog(MainActivity.this);
         drawerlayout=findViewById(R.id.drawerlayout);
+        addsubj=findViewById(R.id.addsubj);
         navigationview=findViewById(R.id.navigationview);
         toolbar=findViewById(R.id.toolbar);
         recview=findViewById(R.id.recview);
         recview.setLayoutManager(new LinearLayoutManager(this));
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
+        db=new Mydbhandler(MainActivity.this);
+//        db.openDatabase();
         //setting date
         date=findViewById(R.id.date);
         final String currenttimestamp = String.valueOf(System.currentTimeMillis());
@@ -70,6 +81,43 @@ public class MainActivity extends AppCompatActivity {
                 }
                 drawerlayout.closeDrawer(GravityCompat.START);
                 return true;
+            }
+        });
+        addsubj.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.setContentView(R.layout.newsubj_dialog);
+                dialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                EditText subject,pres,total;
+                Button cancel,add;
+                subject=dialog.findViewById(R.id.subject);
+                pres=dialog.findViewById(R.id.pres);
+                total=dialog.findViewById(R.id.total);
+                cancel=dialog.findViewById(R.id.cancel);
+                add=dialog.findViewById(R.id.add);
+                cancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        dialog.dismiss();
+                    }
+                });
+                add.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        String sub=subject.getText().toString();
+                        String t=total.getText().toString();
+                        String p=pres.getText().toString();
+                        if(sub.isEmpty()||t.isEmpty()||p.isEmpty()){
+                            Toast.makeText(MainActivity.this,"All fields are required",Toast.LENGTH_SHORT).show();
+                        }
+                        else{
+//                            Model m=new Model(sub,Integer.parseInt(t),Integer.parseInt(p));
+//                            db.insertTask(m);
+                            dialog.dismiss();
+                        }
+                    }
+                });
+                dialog.show();
             }
         });
     }

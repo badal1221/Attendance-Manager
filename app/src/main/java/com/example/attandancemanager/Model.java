@@ -3,7 +3,7 @@ package com.example.attandancemanager;
 public class Model {
     String subject;
     int totalc,presc;
-
+    public Model(){}
     public Model(String subject, int totalc, int presc) {
         this.subject = subject;
         this.totalc = totalc;

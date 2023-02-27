@@ -17,7 +17,8 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class Recycleattandadapter extends RecyclerView.Adapter<Recycleattandadapter.viewholder>{
     Context context;
     ArrayList<Model> arr;
-    public Recycleattandadapter(Context context, ArrayList<Model> arr) {
+    private Mydbhandler db;
+    public Recycleattandadapter(Context context,ArrayList<Model> arr) {
         this.context = context;
         this.arr = arr;
     }
