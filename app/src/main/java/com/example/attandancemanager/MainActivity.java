@@ -13,7 +13,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Dialog;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,14 +33,16 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
     DrawerLayout drawerlayout;
     NavigationView navigationview;
     Toolbar toolbar;
-    TextView date,addsubj;
+    TextView date,addsubj,goall,presattend;
     RecyclerView recview;
+    int goal=75;
     private Mydbhandler db;
     ArrayList<Model> arr=new ArrayList<>();
     @Override
@@ -45,6 +51,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Dialog dialog = new Dialog(MainActivity.this);
         drawerlayout=findViewById(R.id.drawerlayout);
+        goall=findViewById(R.id.goall);
+        presattend=findViewById(R.id.presattend);
         addsubj=findViewById(R.id.addsubj);
         navigationview=findViewById(R.id.navigationview);
         toolbar=findViewById(R.id.toolbar);
@@ -53,7 +61,13 @@ public class MainActivity extends AppCompatActivity {
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
         db=new Mydbhandler(MainActivity.this);
-//        db.openDatabase();
+
+        SharedPreferences pref= getSharedPreferences("Goal", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor=pref.edit();
+        editor.putInt("key1",goal);
+        editor.apply();
+        goall.setText("Goal:"+goal+"%");
+
         //setting date
         date=findViewById(R.id.date);
         final String currenttimestamp = String.valueOf(System.currentTimeMillis());
@@ -61,9 +75,7 @@ public class MainActivity extends AppCompatActivity {
         Date date1=new Date(timestamp.getTime());
         SimpleDateFormat simpleDateFormat=new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
         date.setText(simpleDateFormat.format(date1));
-
-        arr.add(new Model("Maths",28,14));
-        Recycleattandadapter adapter=new Recycleattandadapter(this,arr);
+        Recycleattandadapter adapter=new Recycleattandadapter(this,db);
         recview.setAdapter(adapter);
 
         ActionBarDrawerToggle toggle=new ActionBarDrawerToggle(this,drawerlayout,toolbar,R.string.OpenDrawer,R.string.CloseDrawer);
@@ -75,7 +87,39 @@ public class MainActivity extends AppCompatActivity {
                 int id=item.getItemId();
                 if(id==R.id.Subjects){
                 }
-                else if(id==R.id.home){
+                else if(id==R.id.Editcrit){
+                    dialog.setContentView(R.layout.editgoal);
+                    dialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                    EditText newgoal;
+                    Button cancel,set;
+                    newgoal=dialog.findViewById(R.id.newgoal);
+                    cancel=dialog.findViewById(R.id.cancel);
+                    set=dialog.findViewById(R.id.set);
+                    cancel.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            dialog.dismiss();
+                        }
+                    });
+                    set.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            if(newgoal.getText().toString().isEmpty()||Integer.parseInt(newgoal.getText().toString())>100){
+                                Toast.makeText(MainActivity.this,"Enter a valid Goal",Toast.LENGTH_SHORT).show();
+                            }
+                            else{
+                                goal=Integer.parseInt(newgoal.getText().toString());
+                                SharedPreferences pref= getSharedPreferences("Goal", Context.MODE_PRIVATE);
+                                SharedPreferences.Editor editor=pref.edit();
+                                editor.putInt("key1",goal);
+                                editor.apply();
+                                adapter.notifyDataSetChanged();
+                                goall.setText("Goal:"+goal+"%");
+                                dialog.dismiss();
+                            }
+                        }
+                    });
+                    dialog.show();
                 }
                 else{
                 }
@@ -109,10 +153,12 @@ public class MainActivity extends AppCompatActivity {
                         String p=pres.getText().toString();
                         if(sub.isEmpty()||t.isEmpty()||p.isEmpty()){
                             Toast.makeText(MainActivity.this,"All fields are required",Toast.LENGTH_SHORT).show();
-                        }
-                        else{
-//                            Model m=new Model(sub,Integer.parseInt(t),Integer.parseInt(p));
-//                            db.insertTask(m);
+                        } else if (Integer.parseInt(t)<Integer.parseInt(p)) {
+                            Toast.makeText(MainActivity.this,"Total classes can't be less than classes present",Toast.LENGTH_SHORT).show();
+                        } else{
+                            Model m=new Model(sub,Integer.parseInt(t),Integer.parseInt(p));
+                            db.insertTask(m);
+                            adapter.updateData(m);
                             dialog.dismiss();
                         }
                     }
@@ -120,6 +166,12 @@ public class MainActivity extends AppCompatActivity {
                 dialog.show();
             }
         });
+        List<Model> contacts = db.getAllTasks();
+        for (Model cn : contacts) {
+            String log = "SUBJECT: " + cn.getSubject() + " ,TOTALC: " + cn.getTotalc() + " ,PRESENT: " +
+                    cn.getPresc();
+            Log.d("Name",log);
+        }
     }
     @Override
     public void onBackPressed(){
