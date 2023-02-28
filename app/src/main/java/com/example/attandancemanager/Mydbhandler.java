@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,7 +60,6 @@ public class Mydbhandler extends SQLiteOpenHelper {
                         task.setSubject(cur.getString(cur.getColumnIndexOrThrow(SUBJECT)));
                         task.setTotalc(cur.getInt(cur.getColumnIndexOrThrow(TOTALC)));
                         task.setPresc(cur.getInt(cur.getColumnIndexOrThrow(PRESC)));
-                        //task.setGoal(cur.getInt(cur.getColumnIndexOrThrow(GOAL)));
                         m1.add(task);
                     }while(cur.moveToNext());
                 }

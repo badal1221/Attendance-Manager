@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
     DrawerLayout drawerlayout;
     NavigationView navigationview;
     Toolbar toolbar;
-    TextView date,addsubj,goall,presattend;
+    TextView date,addsubj,goall,presattend,totalperc;
     RecyclerView recview;
     int goal=75;
     private Mydbhandler db;
@@ -52,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
         Dialog dialog = new Dialog(MainActivity.this);
         drawerlayout=findViewById(R.id.drawerlayout);
         goall=findViewById(R.id.goall);
+        totalperc=findViewById(R.id.totalperc);
         presattend=findViewById(R.id.presattend);
         addsubj=findViewById(R.id.addsubj);
         navigationview=findViewById(R.id.navigationview);
@@ -166,12 +167,15 @@ public class MainActivity extends AppCompatActivity {
                 dialog.show();
             }
         });
-        List<Model> contacts = db.getAllTasks();
-        for (Model cn : contacts) {
-            String log = "SUBJECT: " + cn.getSubject() + " ,TOTALC: " + cn.getTotalc() + " ,PRESENT: " +
-                    cn.getPresc();
-            Log.d("Name",log);
-        }
+//        List<Model> contacts = db.getAllTasks();
+//        int a=0,b=0;
+//        for (Model cn : contacts){
+//            a+=cn.getTotalc() ;
+//            b+=cn.getPresc();
+//        }
+//        Log.d("ab",String.valueOf(a));
+//        Log.d("ab"," "+String.valueOf(b));
+//        totalperc.setText((int)(b*100/a)+"%");
     }
     @Override
     public void onBackPressed(){

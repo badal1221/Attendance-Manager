@@ -44,15 +44,30 @@ public class Recycleattandadapter extends RecyclerView.Adapter<Recycleattandadap
         else{
             int x=(int)(m.getPresc()*100/m.getTotalc());
             holder.perc.setText(x+"%");
-            //Log.d("m213",String.valueOf(m.getGoal()));
             SharedPreferences pref= context.getSharedPreferences("Goal",Context.MODE_PRIVATE);
             int goal=pref.getInt("key1",100);
-           // Log.d("m213",String.valueOf(goal));
             if(x>=goal){
                 holder.status.setText("Status:On Track");
+                int a=0;
+                while (a >= 0) {
+                    if(m.getPresc()*100/(m.getTotalc()+a)<goal){
+                        break;
+                    }
+                    a+=1;
+                }
+                a-=1;
+                holder.leave.setText("You can leave "+ a +" classes now");
             }
             else{
                 holder.status.setText("Status:Not On Track");
+                int a=0;
+                while(a>=0) {
+                    if((m.getPresc()+a)*100/(m.getTotalc()+a)>=goal){
+                        break;
+                    }
+                    a+=1;
+                }
+                holder.leave.setText("You need to attend "+a+" classes to get on track");
             }
         }
         holder.present.setOnClickListener(new View.OnClickListener() {
@@ -77,6 +92,7 @@ public class Recycleattandadapter extends RecyclerView.Adapter<Recycleattandadap
         holder.ll1.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
+                view.performHapticFeedback(HapticFeedbackConstants.REJECT);
                 AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
                 builder.setMessage("Do you want to delete?");
                 builder.setTitle("Delete !");
@@ -84,6 +100,7 @@ public class Recycleattandadapter extends RecyclerView.Adapter<Recycleattandadap
                 builder.setPositiveButton("Yes", (DialogInterface.OnClickListener) (dialog, which) -> {
                     db.deletetask(m.getSubject());
                     arr.remove(position);
+                    view.performHapticFeedback(HapticFeedbackConstants.REJECT);
                     notifyDataSetChanged();
                     dialog.cancel();
                 });
