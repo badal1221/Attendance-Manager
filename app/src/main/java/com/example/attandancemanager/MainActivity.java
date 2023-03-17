@@ -16,6 +16,9 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -122,6 +125,37 @@ public class MainActivity extends AppCompatActivity {
                     });
                     dialog.show();
                 }
+                else if(id==R.id.Suggestion || id==R.id.Report){
+//                    Intent i = new Intent(Intent.ACTION_SENDTO);
+//                    i.setType("text/plain");
+//                    i.setData(Uri.parse("dpadhan121@gmail.com"));
+//                    i.putExtra(Intent.EXTRA_EMAIL  , new String[]{"dpadhan121@gmail.com"});
+//                    i.putExtra(Intent.EXTRA_SUBJECT, "Mail Subject");
+//                    i.putExtra(Intent.EXTRA_TEXT   , "massage");
+//                    i.setPackage("com.google.android.gm");
+//                    try {
+//                        startActivity(Intent.createChooser(i, "Send mail..."));
+//                    } catch (android.content.ActivityNotFoundException ex) {
+//                        Toast.makeText(MainActivity.this, "There are no email clients installed.", Toast.LENGTH_SHORT).show();
+//                    }
+
+
+
+                    String recipient = "dpadhan121@gmail.com";
+                    Intent intent = new Intent(Intent.ACTION_SENDTO);
+                    intent.setData(Uri.parse("googlegmail:///co"));
+                    intent.putExtra(Intent.EXTRA_EMAIL, new String[] { recipient });
+                    PackageManager packageManager = getPackageManager();
+                    List<ResolveInfo> activities = packageManager.queryIntentActivities(intent, 0);
+                    boolean isIntentSafe = activities.size() > 0;
+
+                    if (isIntentSafe) {
+                        startActivity(intent);
+                    } else {
+                        Toast.makeText(MainActivity.this, "No email app found on this device", Toast.LENGTH_SHORT).show();
+                    }
+
+                }
                 else{
                 }
                 drawerlayout.closeDrawer(GravityCompat.START);
@@ -167,15 +201,14 @@ public class MainActivity extends AppCompatActivity {
                 dialog.show();
             }
         });
-//        List<Model> contacts = db.getAllTasks();
-//        int a=0,b=0;
-//        for (Model cn : contacts){
-//            a+=cn.getTotalc() ;
-//            b+=cn.getPresc();
-//        }
-//        Log.d("ab",String.valueOf(a));
-//        Log.d("ab"," "+String.valueOf(b));
-//        totalperc.setText((int)(b*100/a)+"%");
+        List<Model> contacts = db.getAllTasks();
+        int a=0,b=0;
+        for (Model cn : contacts){
+            a+=cn.getTotalc() ;
+            b+=cn.getPresc();
+        }
+        totalperc.setText((int)(b*100/a)+"%");
+        presattend.setText("Overall Attendance:"+(int)(b*100/a)+"%");
     }
     @Override
     public void onBackPressed(){

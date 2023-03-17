@@ -8,7 +8,8 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="primary">#6A7CFF</color>
-    <color name="textclr">#090808</color>
-    <color name="bg">#FFF</color>
-    <color name="rvbg">#FFF</color>
+    <color name="textclr">#FFFFFFFF</color>
+    <color name="bg">#252C4B</color>
+    <color name="rvbg">#27325F</color>
+    //#150336,#090808//
 </resources>

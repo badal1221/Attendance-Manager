@@ -5,10 +5,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/container"
     android:orientation="vertical">
-    <androidx.cardview.widget.CardView
+
+    <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardCornerRadius="7dp"
+        app:cardCornerRadius="10dp"
         app:cardUseCompatPadding="true"
         app:cardBackgroundColor="@color/white"
         android:layout_margin="10dp"
@@ -18,7 +19,8 @@
             android:layout_height="wrap_content"
             android:id="@+id/ll1"
             android:orientation="vertical"
-            android:padding="10dp">
+            android:padding="10dp"
+            android:background="@color/rvbg">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -43,7 +45,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Goal:75%"
-                            android:textColor="#090808"
+                            android:textColor="@color/textclr"
                             android:textSize="18dp"
                             android:gravity="center_vertical"
                             android:id="@+id/goall"/>
@@ -64,7 +66,7 @@
                             android:layout_height="wrap_content"
                             android:text="Overall Attendance:99%"
                             android:gravity="center_vertical"
-                            android:textColor="#090808"
+                            android:textColor="@color/textclr"
                             android:textSize="18dp"
                             android:layout_marginTop="5dp"
                             android:id="@+id/presattend"/>
@@ -130,7 +132,7 @@
 
         </LinearLayout>
 
-    </androidx.cardview.widget.CardView>
+    </com.google.android.material.card.MaterialCardView>
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

@@ -7,7 +7,7 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardCornerRadius="7dp"
+        app:cardCornerRadius="15dp"
         app:cardUseCompatPadding="true"
         app:cardBackgroundColor="@color/white"
         android:outlineAmbientShadowColor="@color/cardview_dark_background">
@@ -17,12 +17,14 @@
             android:layout_height="wrap_content"
             android:id="@+id/ll1"
             android:orientation="vertical"
-            android:padding="5dp">
+            android:padding="5dp"
+            android:background="@color/rvbg">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/ll2"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:layout_marginTop="5dp">
                 <View
                     android:layout_width="5dp"
                     android:layout_height="match_parent"
@@ -35,7 +37,7 @@
                     android:textStyle="bold"
                     android:layout_marginStart="3dp"
                     android:id="@+id/subject"
-                    android:textColor="#090808"/>
+                    android:textColor="@color/textclr"/>
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
@@ -59,13 +61,13 @@
                         android:layout_height="wrap_content"
                         android:textSize="15dp"
                         android:id="@+id/attend"
-                        android:textColor="#090808"/>
+                        android:textColor="@color/textclr"/>
                     <TextView
                         android:layout_width="200dp"
                         android:layout_height="wrap_content"
                         android:textSize="15dp"
                         android:id="@+id/status"
-                        android:textColor="#090808"/>
+                        android:textColor="@color/textclr"/>
                 </LinearLayout>
                 <TextView
                     android:layout_width="match_parent"
@@ -89,7 +91,7 @@
                     android:text="You can leave 4 classes now"
                     android:textStyle="bold"
                     android:id="@+id/leave"
-                    android:textColor="#090808"/>
+                    android:textColor="@color/textclr"/>
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:layout_width="25dp"
                     android:layout_height="25dp"

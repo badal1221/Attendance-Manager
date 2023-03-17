@@ -13,6 +13,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import java.text.DecimalFormat;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -42,8 +44,10 @@ public class Recycleattandadapter extends RecyclerView.Adapter<Recycleattandadap
             holder.leave.setText("You can't leave any class now");
         }
         else{
-            int x=(int)(m.getPresc()*100/m.getTotalc());
-            holder.perc.setText(x+"%");
+            float x=(m.getPresc()*100/(float)m.getTotalc());
+            DecimalFormat df = new DecimalFormat();
+            df.setMaximumFractionDigits(2);
+            holder.perc.setText(df.format(x)+"%");
             SharedPreferences pref= context.getSharedPreferences("Goal",Context.MODE_PRIVATE);
             int goal=pref.getInt("key1",100);
             if(x>=goal){
