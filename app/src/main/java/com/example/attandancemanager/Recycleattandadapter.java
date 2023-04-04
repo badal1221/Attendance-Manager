@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.HapticFeedbackConstants;
 import android.view.LayoutInflater;
@@ -52,6 +53,7 @@ public class Recycleattandadapter extends RecyclerView.Adapter<Recycleattandadap
             int goal=pref.getInt("key1",100);
             if(x>=goal){
                 holder.status.setText("Status:On Track");
+                holder.viw.setBackgroundColor(Color.GREEN);
                 int a=0;
                 while (a >= 0) {
                     if(m.getPresc()*100/(m.getTotalc()+a)<goal){
@@ -64,6 +66,7 @@ public class Recycleattandadapter extends RecyclerView.Adapter<Recycleattandadap
             }
             else{
                 holder.status.setText("Status:Not On Track");
+                holder.viw.setBackgroundColor(Color.RED);
                 int a=0;
                 while(a>=0) {
                     if((m.getPresc()+a)*100/(m.getTotalc()+a)>=goal){
@@ -127,6 +130,7 @@ public class Recycleattandadapter extends RecyclerView.Adapter<Recycleattandadap
     }
     public class viewholder extends RecyclerView.ViewHolder{
         LinearLayout ll1;
+        View viw;
         TextView subject,attend,status,perc,leave;
         CircleImageView present,absent,men;
         public viewholder(@NonNull View itemView) {
@@ -140,6 +144,7 @@ public class Recycleattandadapter extends RecyclerView.Adapter<Recycleattandadap
             present=itemView.findViewById(R.id.present);
             absent=itemView.findViewById(R.id.absent);
             men=itemView.findViewById(R.id.men);
+            viw=itemView.findViewById(R.id.viw);
         }
     }
 }

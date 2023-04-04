@@ -28,7 +28,8 @@
                 <View
                     android:layout_width="5dp"
                     android:layout_height="match_parent"
-                    android:background="#DB0808"/>
+                    android:background="#DB0808"
+                    android:id="@+id/viw"/>
                 <TextView
                     android:layout_width="300sp"
                     android:layout_height="wrap_content"
